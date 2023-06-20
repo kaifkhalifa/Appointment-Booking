@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment List</title>
+    <style>
+        @font-face {
+            font-family: 'Montserrat';
+            src: url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+        }
+
+        body {
+            background-color: #f1f1f1;
+            font-family: 'Montserrat', Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: inline-block;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        input[type="date"],
+        input[type="time"],
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 15px;
+            width: 200px;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+
+        input[type="submit"] {
+            background-color: #009688;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #008080;
+        }
+
+        .appointment-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 30px;
+        }
+
+        .appointment-list li {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .appointment-list li:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* New CSS styles for the checkmark */
+        .checkmark {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .checkmark.show {
+            display: inline-block;
+            color: green;
+            font-size: 24px;
+        }
+    </style>
+    <script>
+        // JavaScript code to show the checkmark and message
+        window.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('appointment-form');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                // Show the checkmark and message
+                var checkmark = document.getElementById('checkmark');
+                checkmark.classList.add('show');
+                checkmark.innerHTML = '&#10004; Appointment booked';
+
+                // Optionally, you can submit the form via AJAX here
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Appointment Booking</h1>
+
+    <form method="POST" action="{% url 'appointment_list' %}" id="appointment-form">
+        {% csrf_token %}
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" required>
+
+        <label for="person">Book with:</label>
+        <select id="person" name="person">
+            <option value="">Any</option>
+            <option value="person1">Person 1</option>
+            <option value="person2">Person 2</option>
+            <option value="person3">Person 3</option>
+        </select>
+
+        <br>
+        <input type="submit" value="Book Appointment">
+    </form>
+
+    <ul class="appointment-list">
+        {% for appointment in appointments %}
+            <li>{{ appointment }}</li>
+        {% empty %}
+            <li>Suggested Booking Times:</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Checkmark element -->
+    <div class="checkmark" id="checkmark"></div>
+</body>
+</html>
+
+       
+
+
+
